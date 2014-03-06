@@ -244,7 +244,7 @@ namespace K.Crypt
 
             switch (languageID)
             {
-                case (int)K.Constants.Classifiers.Romanian_Language:
+                case (int)K.Constants.UserLanguage.Romanian:
 
                     switch (montNumber)
                     {
@@ -288,7 +288,7 @@ namespace K.Crypt
 
                     break;
 
-                case (int)K.Constants.Classifiers.Russian_Language:
+                case (int)K.Constants.UserLanguage.Russian:
 
                     switch (montNumber)
                     {
@@ -332,7 +332,7 @@ namespace K.Crypt
 
                     break;
 
-                case (int)K.Constants.Classifiers.English_Language:
+                case (int)K.Constants.UserLanguage.English:
 
                     switch (montNumber)
                     {
@@ -390,7 +390,7 @@ namespace K.Crypt
                 int inputData_Month = inputDate.Month;
                 int inputData_Year = inputDate.Year;
 
-                result = " " + inputData_Day.ToString() + " " + GetNameOfMonthBymonthNumber((int)K.Constants.Classifiers.Romanian_Language, inputData_Month) + " " + inputData_Year.ToString();
+                result = " " + inputData_Day.ToString() + " " + GetNameOfMonthBymonthNumber((int)K.Constants.UserLanguage.Romanian, inputData_Month) + " " + inputData_Year.ToString();
             }
 
             return result;
@@ -406,10 +406,10 @@ namespace K.Crypt
                 int inputData_Month = inputDate.Month;
                 int inputData_Year = inputDate.Year;
 
-                string dayWordString = Utils.GetSumInWord(inputData_Day, (int)K.Constants.Classifiers.Romanian_Language, (int)K.Constants.NumberWordMode.SimpleNumber);
-                string yearWordString = Utils.GetSumInWord(inputData_Year, (int)K.Constants.Classifiers.Romanian_Language, (int)K.Constants.NumberWordMode.SimpleNumber);
+                string dayWordString = Utils.GetSumInWord(inputData_Day, (int)K.Constants.UserLanguage.Romanian, (int)K.Constants.NumberWordMode.SimpleNumber);
+                string yearWordString = Utils.GetSumInWord(inputData_Year, (int)K.Constants.UserLanguage.Romanian, (int)K.Constants.NumberWordMode.SimpleNumber);
 
-                result = " " + dayWordString + " " + GetNameOfMonthBymonthNumber((int)K.Constants.Classifiers.Romanian_Language, inputData_Month) + " anul " + yearWordString;
+                result = " " + dayWordString + " " + GetNameOfMonthBymonthNumber((int)K.Constants.UserLanguage.Romanian, inputData_Month) + " anul " + yearWordString;
             }
 
             return result;
@@ -436,7 +436,7 @@ namespace K.Crypt
 
         //    switch (languageID)
         //    {
-        //        case (int)K.Constants.Classifiers.Romanian_Language:
+        //        case (int)K.Constants.UserLanguage.Romanian:
 
         //            switch (inputNumber)
         //            {
@@ -562,7 +562,7 @@ namespace K.Crypt
         //            break;
 
 
-        //        case (int)K.Constants.Classifiers.Russian_Language:
+        //        case (int)K.Constants.UserLanguage.Russian:
 
         //            switch (inputNumber)
         //            {
@@ -687,7 +687,7 @@ namespace K.Crypt
 
         //            break;
 
-        //        case (int)K.Constants.Classifiers.English_Language:
+        //        case (int)K.Constants.UserLanguage.English:
 
         //            switch (inputNumber)
         //            {
@@ -816,15 +816,15 @@ namespace K.Crypt
 
         //    switch (languageID)
         //    {
-        //        case (int)K.Constants.Classifiers.Romanian_Language:
+        //        case (int)K.Constants.UserLanguage.Romanian:
         //            result = "Numarul introdus este prea mare";
         //            break;
 
-        //        case (int)K.Constants.Classifiers.Russian_Language:
+        //        case (int)K.Constants.UserLanguage.Russian:
         //            result = "Введенный номер слишком большой";
         //            break;
 
-        //        case (int)K.Constants.Classifiers.English_Language:
+        //        case (int)K.Constants.UserLanguage.English:
         //            result = "The number entered is too large";
         //            break;
         //    }
@@ -838,15 +838,15 @@ namespace K.Crypt
 
         //    switch (languageID)
         //    {
-        //        case (int)K.Constants.Classifiers.Romanian_Language:
+        //        case (int)K.Constants.UserLanguage.Romanian:
         //            result = "și";
         //            break;
 
-        //        case (int)K.Constants.Classifiers.Russian_Language:
+        //        case (int)K.Constants.UserLanguage.Russian:
         //            result = "";
         //            break;
 
-        //        case (int)K.Constants.Classifiers.English_Language:
+        //        case (int)K.Constants.UserLanguage.English:
         //            result = "";
         //            break;
         //    }
@@ -861,11 +861,11 @@ namespace K.Crypt
 
             switch (languageID)
             {
-                case (int)K.Constants.Classifiers.Romanian_Language:
+                case (int)K.Constants.UserLanguage.Romanian:
                     valutaWord = "lei";
                     break;
 
-                case (int)K.Constants.Classifiers.Russian_Language:
+                case (int)K.Constants.UserLanguage.Russian:
                     valutaWord = "рублей";
                     break;
 
@@ -880,7 +880,7 @@ namespace K.Crypt
 
             switch (languageID)
             {
-                case (int)K.Constants.Classifiers.Romanian_Language:
+                case (int)K.Constants.UserLanguage.Romanian:
                     switch (amount)
                     {
                         default:
@@ -889,7 +889,7 @@ namespace K.Crypt
                     }
                     break;
 
-                case (int)K.Constants.Classifiers.Russian_Language:
+                case (int)K.Constants.UserLanguage.Russian:
                     switch (amount)
                     {
                         case 1:
@@ -920,11 +920,11 @@ namespace K.Crypt
 
             switch (languageID)
             {
-                case (int)K.Constants.Classifiers.Romanian_Language:
+                case (int)K.Constants.UserLanguage.Romanian:
                     valutaCentWord = "bani";
                     break;
 
-                case (int)K.Constants.Classifiers.Russian_Language:
+                case (int)K.Constants.UserLanguage.Russian:
                     valutaCentWord = "копеек";
                     break;
             }
@@ -1229,7 +1229,7 @@ namespace K.Crypt
 
             switch (languageID)
             {
-                case (int)K.Constants.Classifiers.Romanian_Language:
+                case (int)K.Constants.UserLanguage.Romanian:
 
                     int pinaLaVirgula = (int)(Math.Abs(number));
                     int dupaVirgula = (int)((Math.Abs(number) - pinaLaVirgula) * 100);
@@ -1251,11 +1251,11 @@ namespace K.Crypt
 
                     break;
 
-                case (int)K.Constants.Classifiers.Russian_Language:
+                case (int)K.Constants.UserLanguage.Russian:
 
                     break;
 
-                case (int)K.Constants.Classifiers.English_Language:
+                case (int)K.Constants.UserLanguage.English:
 
                     break;
             }
@@ -1269,7 +1269,7 @@ namespace K.Crypt
 
             switch (languageID)
             {
-                case (int)K.Constants.Classifiers.Romanian_Language:
+                case (int)K.Constants.UserLanguage.Romanian:
                     switch (valutaID)
                     {
                         case (int)K.Constants.CurrencyList.MDL:
@@ -1284,7 +1284,7 @@ namespace K.Crypt
                     }
                     break;
 
-                case (int)K.Constants.Classifiers.Russian_Language:
+                case (int)K.Constants.UserLanguage.Russian:
                     switch (valutaID)
                     {
                         case (int)K.Constants.CurrencyList.MDL:
@@ -1296,7 +1296,7 @@ namespace K.Crypt
                     }
                     break;
 
-                case (int)K.Constants.Classifiers.English_Language:
+                case (int)K.Constants.UserLanguage.English:
                     switch (valutaID)
                     {
                         case (int)K.Constants.CurrencyList.MDL:
