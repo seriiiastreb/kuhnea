@@ -6,28 +6,33 @@ using System.Threading.Tasks;
 
 namespace K.Constants
 {
+    public enum UserLanguage
+    {
+        English = 1,
+        Romanian = 2, 
+        Russian = 3,
+        French = 4,
+        German = 5
+    }
+
     public enum ClassifierTypes
     {
         Undefined = 0,
-        SystemRoleType = 1,
-        PasswordStatus = 2,
-        CountryList = 3,
-        GenderList = 4,
-        LanguageList = 5,
-        SystemUserRecordStatus = 6
+        PasswordStatus = 1,
+        CountryList = 2,
+        GenderList = 3,
+        UserRecordStatus = 5
     }
 
     public enum Classifiers
     {
         Undefined = 0,
-        Romanian_Language = 1,
-        Russian_Language = 2,
-        English_Language = 3,
-        PasswordStatusActive = 4,
+        PasswordStatusActive = 1,
+        PasswordStatusNeedChange = 2,
 
         UserRecord_Active = 8,
         UserRecord_Blocked = 9,
-        UserRecord__NotActivated = 10
+        UserRecord_NotActivated = 10
     }
 
     public enum CurrencyList
