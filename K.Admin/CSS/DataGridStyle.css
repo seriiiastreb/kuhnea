@@ -1,0 +1,293 @@
+﻿.mGrid 
+{  
+    width:100%;
+    background-color: #fff;
+    margin: 5px 0 10px 0; 
+    border: solid 1px #525252; 
+    border-collapse:collapse; 
+}
+    
+.mGrid td 
+{ 
+    padding: 2px; 
+    border: solid 1px #c1c1c1; 
+    color: #717171; 
+}
+    
+.mGrid th 
+{ 
+    padding: 4px 2px; 
+    color: #fff; 
+    background: #424242 url(../App_Images/grd_head.png) repeat-x top; 
+    border-left: solid 1px #525252; 
+    font-size: 0.9em; 
+}
+
+.tableFooter 
+{ 
+    font-size: 1.5em; 
+}
+
+.mGrid .alt 
+{ 
+    background-color: rgb(238, 238, 238);
+    /*background: url(../App_Images/grd_alt.png) repeat-x top; */
+}
+
+.mGrid .pgr 
+{
+    background: #424242 url(../App_Images/grd_pgr.png) repeat-x top; 
+}
+
+.mGrid .pgr table 
+{ 
+    margin: 5px 0; 
+}
+    
+.mGrid .pgr td 
+{ 
+    border-width: 0; 
+    padding: 0 6px; 
+    border-left: solid 1px #666; 
+    font-weight: bold; 
+    color: #fff; 
+    line-height: 12px; 
+}   
+
+.mGrid .pgr a 
+{ 
+    color: #666; 
+    text-decoration: none; 
+}
+
+.mGrid .pgr a:hover 
+{ 
+    color: #000; 
+    text-decoration: none; 
+}
+    
+.HiddenColumn
+{
+    display:none;
+}
+
+
+/*  AJAX TAB - PANEL */
+
+.ajax__myTab .ajax__tab_header 
+{  
+    font-family: verdana,tahoma,helvetica;  
+    /*font-size: 20px; */
+    background-color:#333;
+}  
+  
+.ajax__myTab .ajax__tab_outer 
+{ 
+
+}  
+  
+.ajax__myTab .ajax__tab_inner { }  
+  
+.ajax__myTab .ajax__tab_tab   
+{
+    overflow: inherit !important; 
+    height: 20px;
+    min-width:100px;
+    font-size:13px;    
+    color:White;
+    padding-top:5px;
+    padding-right:5px;
+    padding-left:5px;
+}  
+    
+.ajax__myTab .ajax__tab_hover .ajax__tab_outer { }  
+  
+.ajax__myTab .ajax__tab_hover .ajax__tab_inner { }
+  
+.ajax__myTab .ajax__tab_hover .ajax__tab_tab { }
+  
+.ajax__myTab .ajax__tab_active .ajax__tab_outer   
+{
+    height:20px;   
+}  
+  
+:focus 
+{ 
+    outline: 0; 
+}
+  
+.ajax__myTab .ajax__tab_active .ajax__tab_inner { }  
+  
+.ajax__myTab .ajax__tab_active .ajax__tab_tab   
+{
+    background-color:White;
+    color:Black;
+    border: 0;
+    -webkit-border-top-left-radius: 7px;
+    -webkit-border-top-right-radius: 7px;
+    -moz-border-radius-topleft: 7px;
+    -moz-border-radius-topright: 7px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}  
+  
+.ajax__myTab .ajax__tab_body {  
+    font-family: verdana,tahoma,helvetica;  
+    font-size: 9pt;  
+    border: 1px solid #999999; 
+    border-top:0; 
+    background-color:White;
+    padding-left:5px;
+    padding-right:5px;
+    padding-top:10px;
+}
+
+
+
+
+
+
+
+
+/* Accordion */
+.accordionHeader
+{    
+    background: #F1F1F4 url(../app_images/secondary_bar.png) repeat-x;
+    color: #1F1F20;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #fff;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #2F4F4F;
+    height: 22px;       
+
+	margin-top: 5px;
+    padding-left: 20px;
+    padding-top: 5px;
+
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#master_content .accordionHeader a
+{
+	color: #FFFFFF;
+	background: none;
+	text-decoration: none;
+}
+
+#master_content .accordionHeader a:hover
+{
+	background: none;
+	text-decoration: underline;
+}
+
+.accordionHeaderSelected
+{
+    background: #F1F1F4 url(../app_images/secondary_bar.png) repeat-x;
+    color: #1F1F20;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #fff;
+    font-size: 14px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    
+    border: 1px solid #2F4F4F;
+    height: 22px;       
+
+	margin-top: 5px;
+    padding-left: 20px;
+    padding-top: 5px;
+
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+#master_content .accordionHeaderSelected a
+{
+	color: #FFFFFF;
+	background: none;
+	text-decoration: none;
+}
+
+#master_content .accordionHeaderSelected a:hover
+{
+	background: none;
+	text-decoration: underline;
+}
+
+.accordionContent
+{
+    background-color:#ffffff;
+    border: 1px dashed #2F4F4F;
+    border-top: none;
+    padding: 5px;
+    padding-top: 10px;
+}
+
+
+
+
+/* SIMPLE Accordion */
+.Simple_accordionHeader
+{    
+    color: #1F1F20;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #fff;
+    border: 1px solid #2F4F4F;
+    padding-left: 20px;
+    padding-top: 3px;
+    padding-bottom:3px;
+    cursor: pointer;
+}
+
+#master_content .Simple_accordionHeader a
+{
+	color: #FFFFFF;
+	background: none;
+	text-decoration: none;
+}
+
+#master_content .Simple_accordionHeader a:hover
+{
+	background: none;
+	text-decoration: underline;
+}
+
+.Simple_accordionHeaderSelected
+{
+    background-color:#FFD1C0;
+    color: #1F1F20;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #fff;
+    
+    border: 1px solid #2F4F4F;
+    padding-left: 20px;
+    padding-top: 3px;
+    padding-bottom:3px;
+    cursor: pointer;
+}
+
+#master_content .Simple_accordionHeaderSelected a
+{
+	color: #FFFFFF;
+	background: none;
+	text-decoration: none;
+}
+
+#master_content .Simple_accordionHeaderSelected a:hover
+{
+	background: none;
+	text-decoration: underline;
+}
+
+.Simple_accordionContent
+{
+    background-color:#ffffff;
+    border: 1px dashed #2F4F4F;
+    border-top: none;
+    padding: 5px;
+    padding-top: 10px;
+}
