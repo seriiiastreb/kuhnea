@@ -21,7 +21,7 @@ namespace K.Constants
         PasswordStatus = 1,
         CountryList = 2,
         GenderList = 3,
-        UserRecordStatus = 5
+        UserRecordStatus = 4
     }
 
     public enum Classifiers
