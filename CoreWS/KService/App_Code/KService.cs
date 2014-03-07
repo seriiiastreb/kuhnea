@@ -20,7 +20,7 @@ public class KService : System.Web.Services.WebService
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     #region Data members
-    private readonly string sDbConnectionStringKey = "DbConnectionString";
+    private readonly string sDbConnectionStringKey = "DBConnectionString";
     DataBridge mDataBridge = null;
     string mLastError = string.Empty;
 
@@ -32,32 +32,12 @@ public class KService : System.Web.Services.WebService
     #region Construction and destruction
     public KService()
     {
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
-
-
-        //mDataBridge = new DataBridge(HRPM.Config.ConfigManager.DbConnectionString, HRPM.Config.ConfigManager.DbProvider);
-        mDataBridge = new DataBridge(System.Configuration.ConfigurationManager.ConnectionStrings[sDbConnectionStringKey].ConnectionString
-                                    , System.Configuration.ConfigurationManager.ConnectionStrings[sDbConnectionStringKey].ProviderName);
+        mDataBridge = new DataBridge(System.Configuration.ConfigurationManager.ConnectionStrings[sDbConnectionStringKey].ConnectionString, System.Configuration.ConfigurationManager.ConnectionStrings[sDbConnectionStringKey].ProviderName);
     }
     #endregion Construction and destruction
 
     #region Helpers
-    private bool HasOnlyOneEntry(DataTable dataTable)
-    {
-        bool result = false;
-
-        if (dataTable != null && dataTable.Rows.Count > 0)
-        {
-            if (dataTable.Rows.Count == 1)
-            {
-                result = true;
-            }
-        }
-
-        return result;
-    }
-
+   
     [WebMethod(EnableSession = true)]
     public string LastError()
     {
@@ -88,26 +68,23 @@ public class KService : System.Web.Services.WebService
     }
 
     [WebMethod(EnableSession = true)]
-    public bool Login(string login, string password, bool encryptPassword)
+    public bool Login(string login, string password)
     {
         if (login.Contains("'") || login.Contains(" ") || password.Contains("'") || password.Contains(" "))
         {
             throw new Exception("Invalid characters in login or password");
         }
 
-        string passwordEncrypted = string.Empty;
+        string passwordEncrypted =  K.Crypt.CryptorEngine.GetMd5Hash(password);
 
-        passwordEncrypted = K.Crypt.CryptorEngine.GetMd5Hash(password);
-        DataTable result = mDataBridge.ExecuteQuery("SELECT userid FROM users WHERE login = '" + login + "' AND password = '" + (encryptPassword ? passwordEncrypted : password) + "' AND PasswordStatus IN ( " + (int)K.Constants.Classifiers.PasswordStatusActive + ") ");
+        DataTable result = mDataBridge.ExecuteQuery("SELECT userid FROM users WHERE login = '" + login + "' AND password = '" + passwordEncrypted + "' AND PasswordStatus = " + (int)K.Constants.Classifiers.PasswordStatusActive);
 
         bool loggedIn = false;
         if (result != null && result.Rows.Count == 1)
         {
             loggedIn = true;
-            Session[SessionKeys.LoggedIn] = true;
-
-            int userId = result.Rows[0]["userid"] != DBNull.Value ? (int)result.Rows[0]["userid"] : 0;
-            Session[SessionKeys.LoggedInUserId] = userId;
+            K.DataObjects.User logetUser = new K.DataObjects.User(result.Rows[0]);
+            //Session[SessionKeys.LoggedInUser] = logetUser;
         }
         else
         {
@@ -194,7 +171,7 @@ public class KService : System.Web.Services.WebService
 
         bool result = false;
         DataTable userData = mDataBridge.ExecuteQuery("SELECT * FROM users as users WHERE users.email_address =  '" + email + "' ");
-        result = HasOnlyOneEntry(userData);
+        //result = HasOnlyOneEntry(userData);
 
         return result;
     }
