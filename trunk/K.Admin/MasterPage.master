@@ -1,0 +1,184 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<%@ Register TagPrefix="ajax" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head runat="server">
+    <title>Admin Control Panel</title>    
+
+    <link rel="stylesheet" type="text/css" href="CSS/base.css" />    
+    <link rel="stylesheet" type="text/css" href="CSS/disain.css" />    
+    <link rel="stylesheet" type="text/css" href="CSS/DataGridStyle.css" />
+	<link rel="stylesheet" type="text/css" href="CSS/nav.css" media="screen" />	
+    <link rel="stylesheet" type="text/css" href="CSS/colorbox.css"  />
+    <link rel="stylesheet" type="text/css" href="CSS/SimpleModalW.css"  />
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+
+    <style type="text/css">
+        #overlay {
+     visibility: hidden;
+     position: absolute;
+     left: 0px;
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+}
+#overlay div {
+     width:300px;
+     margin: 100px auto;
+     background-color: #fff;
+     border:1px solid #000;
+     padding:15px;
+     text-align:center;
+}
+    </style>
+    <script type="text/javascript">
+        function overlay() {
+            el = document.getElementById("overlay");
+            el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+        }     
+
+    </script>
+</head>
+<body>                   
+    <div id="container">
+        <div id="header">
+            <div style="float:left; width:48%; text-align:left; font-size: 35px;">YourLogoHere</div>
+            <div style="width:25px; float:left; width:4%; text-align:center;">  
+                <asp:HyperLink ID="homeHyperLink" runat="server" ImageUrl="~/App_Images/home.png" ToolTip="Pagina de start" NavigateUrl="~/Default.aspx"></asp:HyperLink>
+            </div>  
+            <div style="float:left; width:48%; padding-top:10px;"> 
+                <div   style="float:right; margin-right:10px; " >
+                    <asp:HyperLink ID="LogInLogOutLinkButton" CssClass="button black bigrounded" runat="server" onload="LogInLogOutLinkButton_Load" > </asp:HyperLink>
+                </div>                
+            </div>
+        </div>
+        <div id="menuBar">
+	        <ul id="menu">
+                <% Response.Write(navMainMenu); %>			
+		    </ul>					
+        </div>
+
+
+    <div id="wrapper">
+        <div id="content">
+            <form id="mainForm" runat="server">            
+            
+                <script type="text/javascript" language="javascript">
+                  var txt = "";
+                  try {
+                      function doPost(eventTarget, eventArgument) {
+                          __doPostBack(eventTarget, eventArgument);
+                          theForm.__EVENTTARGET.value = "";
+                          theForm.__EVENTARGUMENT.value = "";
+                      }                   
+
+                      function CallPrint(strid) {
+                          var prtContent = document.getElementById(strid);
+                          var WinPrint = window.open('', '', 'letf=0,top=0,width=1000,height=1000,toolbar=0,scrollbars=yes,status=0');
+                          WinPrint.document.write(prtContent.innerHTML);
+                          WinPrint.document.close();
+                          WinPrint.focus();
+                          WinPrint.print();
+                          WinPrint.close();
+                      }
+
+                      function showPrintWindow(strid, sze) {
+                          var txt = document.getElementById(strid).innerHTML;
+
+                          txt = txt.fontsize(sze);
+
+                          objWindow = window.open("", "", "width=1000,height=1000");
+                          objWindow.document.write(txt);
+                          objWindow.print();
+                          objWindow.close();
+                      }
+                                    
+
+                      function DoTheClick(checkBox_id, textBoxID, columnName) {
+                          
+                          var valueText = document.getElementById(textBoxID).value;
+                          var isCheck = document.getElementById(checkBox_id).checked;
+                          var result = DoTheClickJS(columnName, isCheck, valueText);
+                          document.getElementById(textBoxID).value = result;
+                      }
+
+                      function CancelInputFromNewPanel() {
+                          doPost('newCancel', '');
+                      }
+
+                      function GetInputFromNewPanel() {
+                          var container, inputs, index;
+
+                          // Get the container element
+                          container = document.getElementById('<%= Constants.Constants.ConfigPanel.newFormContainer %>');
+
+                          // Find its child `input` elements
+                          inputs = container.getElementsByClassName("inputForm");
+                          //inputs = container.getElementsByTagName('input');
+                          
+                          var inputValue = '';
+                          for (index = 0; index < inputs.length; ++index) {
+                              if (index > 0) {
+                                  inputValue += ',';
+                              }
+
+                              //alert(inputs[index].type);
+
+                              if (inputs[index].type =='checkbox') {
+                                  inputValue += inputs[index].checked;
+                              }
+                              else {
+                                  inputValue += inputs[index].value;
+                              }
+
+                              //alert(inputs[index].value);
+                          }
+                          
+                          doPost('newSave', inputValue);
+                      }
+
+                  }
+                  catch (err) {
+                      txt = "There was an error on this page.\n\n";
+                      txt += "Error description: " + err.message + "\n\n";
+                      txt += "Click OK to continue.\n\n";
+                      alert(txt);
+                  }
+                
+                </script>
+
+                <ajax:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+                </ajax:ToolkitScriptManager>
+
+                <asp:HyperLink ID="HyperLink1" runat="server" CssClass="HiddenColumn">HyperLink</asp:HyperLink>
+
+                <ajax:ModalPopupExtender ID="infoWindowPopupExtender" runat="server"
+                    TargetControlID="HyperLink1"
+                    PopupControlID = "infoWindowPopup"
+                    OkControlID = "okButton"
+                    DropShadow="true" >
+                </ajax:ModalPopupExtender>   
+                
+                <asp:Panel runat="server" ID="infoWindowPopup" Style="display: none;" >    
+                    <div class="info_box">
+                        <h2> <asp:Label ID="infoWindowTitleLabel" runat="server" Text=""></asp:Label>    </h2>
+                        <p> <asp:Label ID="infoWindowMessageLabel" runat="server" Text=""></asp:Label> </p>                                
+                        <p >
+                            <asp:Button ID="okButton" runat="server" Text="Ok" CssClass="okButton" />
+                        </p>
+                    </div> 
+                </asp:Panel>        
+				<asp:ContentPlaceHolder ID="MainContent" runat="server"/>	
+            </form>		
+        </div>    
+    </div>
+
+    <div id="footer" style="text-align:center"> <p>&copy; Copyright 2012 - Dinar Capital | Lead Developer - <a href="#" target="_blank">SIOM Project</a></p></div>
+    
+    </div>        				       
+</body>
+</html>
