@@ -11,7 +11,7 @@ public partial class AccessDenied : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Utils.GetMaster(this).PerformPreloadActions(mCurrentModule, mPageName);
+        //Utils.GetMaster(this).PerformPreloadActions(mCurrentModule, mPageName);
 
         //Utils.InfoText(this,"","Access denied. Not enough priviledges to access the required resource.");
     }
