@@ -234,33 +234,74 @@ namespace K.DAL
             return adapter;
         }
 
-        public System.Data.DataTable ExecuteQuery(string queryString)
+        //public System.Data.DataTable ExecuteQuery(string queryString)
+        //{
+        //    Connect();
+        //    CheckQueryCompliance(queryString);
+        //    mLastError = string.Empty;
+
+        //    System.Data.DataTable toReturn = new System.Data.DataTable();
+
+        //    try
+        //    {
+        //        System.Data.Common.DbDataAdapter adapter = this.CreateAdapter(queryString);
+        //        adapter.Fill(toReturn);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        toReturn = null;
+        //        mLastError = "Query exception. " + e.Message;
+        //    }
+
+        //    Disconnect();
+        //    return toReturn;
+        //}
+
+        private bool FindSQLInjection(string field)
         {
-            Connect();
-            CheckQueryCompliance(queryString);
-            mLastError = string.Empty;
+            bool result = false;
+            string checkedField = field.ToLower();
 
-            System.Data.DataTable toReturn = new System.Data.DataTable();
-
-            try
+            if (checkedField.Contains("insert")
+                || checkedField.Contains("into")
+                || checkedField.Contains("delete")
+                || checkedField.Contains("update")
+                || checkedField.Contains("select")
+                || checkedField.Contains("openrowset")
+                || checkedField.Contains("sqloledb")
+                || checkedField.Contains("servername")
+                || checkedField.Contains("create")
+                || checkedField.Contains("exec")
+                || checkedField.Contains("xp_cmdshell")
+                || checkedField.Contains("craw")
+                || checkedField.Contains("queryout")
+                || checkedField.Contains("pwdump.exe")
+                || checkedField.Contains("shackersip")
+                || checkedField.Contains("hkey_"))
             {
-                System.Data.Common.DbDataAdapter adapter = this.CreateAdapter(queryString);
-                adapter.Fill(toReturn);
-            }
-            catch (Exception e)
-            {
-                toReturn = null;
-                mLastError = "Query exception. " + e.Message;
+                result = true;
             }
 
-            Disconnect();
-            return toReturn;
+            return result;
+        }
+
+        private void CheckHashTabelForSQLInjection(Hashtable parameters)
+        {
+            foreach (DictionaryEntry entry in parameters)
+            {
+                if (entry.Value.GetType() == typeof(string) && FindSQLInjection((string)entry.Value) )
+                {
+                    K.Platform.Logger.LogFatal("ALERT!!! SQL INJECTION FOUND : " + (string)entry.Value);
+                    throw new Exception("Invalid SQL parameters found.");
+                }
+            }
         }
 
         public System.Data.DataTable ExecuteQuery(string queryString, Hashtable parameters)
         {
+            CheckHashTabelForSQLInjection(parameters);
             Connect();
-            CheckQueryCompliance(queryString);
+
             mLastError = string.Empty;
 
             System.Data.DataTable toReturn = new System.Data.DataTable();
@@ -291,70 +332,44 @@ namespace K.DAL
             }
 
             Disconnect();
+
+            if (!string.IsNullOrEmpty(mLastError))
+            {
+                K.Platform.Logger.LogError(mLastError);
+            }
+
             return toReturn;
-        }
+        }     
 
-        private bool CheckQueryCompliance(string queryString)
-        {
-            bool result = false;
+        //public object ExecuteScalarQuery(string scalarQuery)
+        //{
+        //    Connect();
+        //    CheckQueryCompliance(scalarQuery);
 
-            switch (mProvider)
-            {
-                case "MSSQL":
-                    result = true;
-                    break;
+        //    mLastError = string.Empty;
 
-                case "PGSQL":
+        //    object result = null;
+        //    try
+        //    {
+        //        System.Data.Common.DbCommand command = mSqlConnection.CreateCommand();
+        //        command.CommandTimeout = DataBridge.SqlCommandTimeoutSeconds;
+        //        command.CommandText = scalarQuery;
+        //        result = command.ExecuteScalar();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        mLastError = "Scalar query exception. " + e.Message;
+        //    }
 
-                    if (!queryString.ToLower().Contains("isnull"))
-                    {
-                        result = true;
-                    }
-                    else
-                    {
-                        K.Platform.Logger.LogFatal("Non-compliant query. " + queryString);
-                        throw new Exception("Non-compliant query.");
-                    }
-
-                    break;
-                default:
-                    result = true;
-                    break;
-            }
-
-            return result;
-        }
-
-        public object ExecuteScalarQuery(string scalarQuery)
-        {
-            Connect();
-            CheckQueryCompliance(scalarQuery);
-
-            mLastError = string.Empty;
-
-            object result = null;
-            try
-            {
-                System.Data.Common.DbCommand command = mSqlConnection.CreateCommand();
-                command.CommandTimeout = DataBridge.SqlCommandTimeoutSeconds;
-                command.CommandText = scalarQuery;
-                result = command.ExecuteScalar();
-            }
-            catch (Exception e)
-            {
-                mLastError = "Scalar query exception. " + e.Message;
-            }
-
-            Disconnect();
-            return result;
-        }
+        //    Disconnect();
+        //    return result;
+        //}
 
         public object ExecuteScalarQuery(string scalarQuery, Hashtable parameters)
         {
             object result = null;
-
+            CheckHashTabelForSQLInjection(parameters);
             Connect();
-            CheckQueryCompliance(scalarQuery);
 
             mLastError = string.Empty;
 
@@ -381,50 +396,56 @@ namespace K.DAL
             }
 
             Disconnect();
+
+            if (!string.IsNullOrEmpty(mLastError))
+            {
+                K.Platform.Logger.LogError(mLastError);
+            }
+
             return result;
         }
 
-        public bool ExecuteNonQuery(string nonQuery)
-        {
-            Connect();
-            CheckQueryCompliance(nonQuery);
+        //public bool ExecuteNonQuery(string nonQuery)
+        //{
+        //    Connect();
+        //    CheckQueryCompliance(nonQuery);
 
-            mLastError = string.Empty;
+        //    mLastError = string.Empty;
 
-            bool result = false;
+        //    bool result = false;
 
-            System.Data.Common.DbTransaction transaction = mSqlConnection.BeginTransaction();
-            try
-            {
-                System.Data.Common.DbCommand command = mSqlConnection.CreateCommand();
-                command.CommandTimeout = DataBridge.SqlCommandTimeoutSeconds;
-                command.Transaction = transaction;
+        //    System.Data.Common.DbTransaction transaction = mSqlConnection.BeginTransaction();
+        //    try
+        //    {
+        //        System.Data.Common.DbCommand command = mSqlConnection.CreateCommand();
+        //        command.CommandTimeout = DataBridge.SqlCommandTimeoutSeconds;
+        //        command.Transaction = transaction;
 
-                command.CommandText = nonQuery;
+        //        command.CommandText = nonQuery;
 
-                int rowsAffected = command.ExecuteNonQuery();
-                if (rowsAffected > 0)
-                {
-                    result = true;
-                }
+        //        int rowsAffected = command.ExecuteNonQuery();
+        //        if (rowsAffected > 0)
+        //        {
+        //            result = true;
+        //        }
 
-                transaction.Commit();
-            }
-            catch (Exception e)
-            {
-                mLastError = "Non-query exception. " + e.Message;
-                transaction.Rollback();
-            }
+        //        transaction.Commit();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        mLastError = "Non-query exception. " + e.Message;
+        //        transaction.Rollback();
+        //    }
 
-            Disconnect();
+        //    Disconnect();
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public bool ExecuteNonQuery(string nonQuery, Hashtable parameters)
         {
+            CheckHashTabelForSQLInjection(parameters);
             Connect();
-            CheckQueryCompliance(nonQuery);
 
             mLastError = string.Empty;
 
@@ -464,61 +485,66 @@ namespace K.DAL
 
             Disconnect();
 
+            if (!string.IsNullOrEmpty(mLastError))
+            {
+                K.Platform.Logger.LogError(mLastError);
+            }
+
             return result;
         }
 
-        /// <summary>
-        /// Executes a batch of queries. All the queries are executed within one (the same) transaction which is commited 
-        /// after last query is executed. If an exception is caught during execution, it is reported in mLast error, 
-        /// and the transaction is rolled back. 
-        /// </summary>
-        /// <param name="insertQueryBatch">
-        /// An array of queries. 
-        /// </param>
-        /// <returns>
-        /// Total number of affected rows.
-        /// </returns>
-        public int ExecuteNonQueryBatch(string[] insertQueryBatch)
-        {
-            Connect();
-            int rowsAffected = 0;
+        ///// <summary>
+        ///// Executes a batch of queries. All the queries are executed within one (the same) transaction which is commited 
+        ///// after last query is executed. If an exception is caught during execution, it is reported in mLast error, 
+        ///// and the transaction is rolled back. 
+        ///// </summary>
+        ///// <param name="insertQueryBatch">
+        ///// An array of queries. 
+        ///// </param>
+        ///// <returns>
+        ///// Total number of affected rows.
+        ///// </returns>
+        //public int ExecuteNonQueryBatch(string[] insertQueryBatch)
+        //{
+        //    Connect();
+        //    int rowsAffected = 0;
 
-            mLastError = string.Empty;
+        //    mLastError = string.Empty;
 
-            System.Data.Common.DbTransaction transaction = mSqlConnection.BeginTransaction();
-            try
-            {
-                System.Data.Common.DbCommand command = mSqlConnection.CreateCommand();
-                command.CommandTimeout = DataBridge.SqlCommandTimeoutSeconds;
+        //    System.Data.Common.DbTransaction transaction = mSqlConnection.BeginTransaction();
+        //    try
+        //    {
+        //        System.Data.Common.DbCommand command = mSqlConnection.CreateCommand();
+        //        command.CommandTimeout = DataBridge.SqlCommandTimeoutSeconds;
 
-                command.Transaction = transaction;
+        //        command.Transaction = transaction;
 
-                for (int i = 0; i < insertQueryBatch.Length; i++)
-                {
-                    string nonQuery = insertQueryBatch[i];
+        //        for (int i = 0; i < insertQueryBatch.Length; i++)
+        //        {
+        //            string nonQuery = insertQueryBatch[i];
 
-                    if (!string.IsNullOrEmpty(nonQuery))
-                    {
-                        CheckQueryCompliance(nonQuery);
+        //            if (!string.IsNullOrEmpty(nonQuery))
+        //            {
+        //                CheckQueryCompliance(nonQuery);
 
-                        command.CommandText = nonQuery;
-                        rowsAffected += command.ExecuteNonQuery();
-                    }
-                }
+        //                command.CommandText = nonQuery;
+        //                rowsAffected += command.ExecuteNonQuery();
+        //            }
+        //        }
 
-                transaction.Commit();
-            }
-            catch (Exception e)
-            {
-                mLastError = "Non-query batch execution exception. " + e.Message;
-                transaction.Rollback();
-                rowsAffected = 0;
-            }
+        //        transaction.Commit();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        mLastError = "Non-query batch execution exception. " + e.Message;
+        //        transaction.Rollback();
+        //        rowsAffected = 0;
+        //    }
 
-            Disconnect();
+        //    Disconnect();
 
-            return rowsAffected;
-        }
+        //    return rowsAffected;
+        //}
 
 
         /// <summary>
@@ -556,12 +582,12 @@ namespace K.DAL
 
                     if (!string.IsNullOrEmpty(nonQuery))
                     {
-                        CheckQueryCompliance(nonQuery);
-
                         command.CommandText = nonQuery;
                         if (parametersArray != null && parametersArray.Length > i)
                         {
                             Hashtable parameters = parametersArray[i];
+                            CheckHashTabelForSQLInjection(parameters);
+
                             if (parameters != null)
                             {
                                 foreach (string parameterName in parameters.Keys)
@@ -589,6 +615,11 @@ namespace K.DAL
             }
 
             Disconnect();
+
+            if (!string.IsNullOrEmpty(mLastError))
+            {
+                K.Platform.Logger.LogError(mLastError);
+            }
 
             return rowsAffected;
         }

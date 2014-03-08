@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace K.Constants
 {
+    public class Keys
+    {
+        public const string CoreWSAddress = "CoreWSAddress";
+        public const string LoggedInUser = "LoggedInUser";
+    }
+
     public enum UserLanguage
     {
         English = 1,
@@ -30,9 +36,9 @@ namespace K.Constants
         PasswordStatusActive = 1,
         PasswordStatusNeedChange = 2,
 
-        UserRecord_Active = 8,
-        UserRecord_Blocked = 9,
-        UserRecord_NotActivated = 10
+        UserRecord_Active = 5,
+        UserRecord_Blocked = 6,
+        UserRecord_NotActivated = 7
     }
 
     public enum CurrencyList
