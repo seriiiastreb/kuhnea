@@ -94,7 +94,7 @@ namespace K.DataObjects
                 mRecordstatus = UserInfoROw["Recordstatus"] != System.DBNull.Value ? (int)UserInfoROw["Recordstatus"] : 0;
                 mLanguage = UserInfoROw["language"] != System.DBNull.Value ? (int)UserInfoROw["language"] : 0;
                 mEmail = UserInfoROw["email"] != System.DBNull.Value ? (string)UserInfoROw["email"] : string.Empty;
-                mIsSysadmin = UserInfoROw["issysadmin"] != System.DBNull.Value ? (bool)UserInfoROw["issysadmin"] : false;
+                mIsSysadmin = UserInfoROw["sysadmin"] != System.DBNull.Value ? (bool)UserInfoROw["sysadmin"] : false;
             }
         }
 
